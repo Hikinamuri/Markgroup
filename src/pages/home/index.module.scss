@@ -67,33 +67,38 @@ select option {
 }
 
 .block_container {
+    display: flex;
+    position: relative;
     width: 100%;
-    gap: 20px;
-    padding-top: 75px;
+    gap: 40px;
+    padding: 75px;
 }
 
 .block_container__rates {
     display: flex;
-    position: relative;
     flex-direction: column;
     width: 50%;
     height: 400px;
     overflow-y: scroll;
     background-color: #15141F;
     border-radius: 15px;
-    box-shadow: 5px 4px 4px #FFFFFF;
+    box-shadow: 4px 4px 6px #FFFFFF;
 }
 
-.block_container__rates h3 {
-    margin: 0;
+.block_container h3 {
     position: absolute;
     top: 10px;
-    left: 0;
-    right: 0;
+    left: 20%;
+    transform: translateX(-20%);
+}
+
+.block_container__valute h3 {
+    left: 75%;
+    transform: translateX(-55%);
 }
 
 .block_container__rates_list {
-    padding-top: 50px;
+    padding: 20px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -112,10 +117,65 @@ select option {
     padding: 3px 5px;
     font-size: 14px;
     cursor: pointer;
-    transition: color 200ms ease, background-color 500ms ease;
+    transition: color 200ms ease, background-color 500ms ease, transform 200ms ease;
 }
 
 .block_container__rates_list div:hover {
     background-color: #FFFFFF;
     color: #000000;
+    transform: scale(1.1);
+}
+
+.block_container__valute {
+    display: flex;
+    flex-wrap: wrap;
+    width: 50%;
+    height: 400px;
+    gap: 10px;
+}
+
+.block_container__valute div {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    box-shadow: 3px 3px 6px #FFFFFF;
+    transition: transform 200ms ease;
+    max-height: 50%;
+    padding: 5px;
+    gap: 10px;
+    font-weight: 500;
+    overflow-y: scroll;
+}
+
+.block_container__valute div p {
+    margin: 0;
+    min-width: 120px;
+}
+
+.block_container__valute div:hover {
+    transform: scale(1.1);
+}
+
+.block_container__valute_first {
+    width: calc(70% - 5px);
+    background-color: #7F7FE7;
+    color: #0F0F15;
+}
+
+.block_container__valute_second {
+    width: calc(30% - 5px);
+    background-color: #561C96;
+}
+
+.block_container__valute_third {
+    width: calc(40% - 5px);
+    background-color: #D9D9D9;
+    color: #0F0F15;
+}
+
+.block_container__valute_fourth {
+    width: calc(60% - 5px);
+    background-color: #AE51DF;
 }

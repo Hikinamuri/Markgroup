@@ -20,12 +20,10 @@ export const HomePage = () => {
     };
 
     const handleChange = (event) => {
-        const targetName = event.target.name;
-        let value = event.target.value;
-        console.log(value)
+        const [name, value ] = event.target;
 
-        if (stateUpdateFunctions[targetName]) {
-            stateUpdateFunctions[targetName](value)
+        if (stateUpdateFunctions[name]) {
+            stateUpdateFunctions[name](value)
         }
     }
 
@@ -37,18 +35,37 @@ export const HomePage = () => {
         setResult(result)
     }
 
-    useEffect(() => {
-        const fetshData = async () => {
-            try {
-                // const response = await getAllCurrency()
-                const rates = await getRUBRates()
-                setRubRates(rates.data);
-                // setData(response.data);
-                setIsLoading(false)
-            }
-            catch {null}
+    const getChunks = () => {
+        if (data && data.Valute) {
+            const dataEntries = Object.entries(data.Valute);
+            const chunkSize = Math.ceil(dataEntries.length / 4);
+            return [
+                dataEntries.slice(0, chunkSize),
+                dataEntries.slice(chunkSize, 2 * chunkSize),
+                dataEntries.slice(2 * chunkSize, 3 * chunkSize),
+                dataEntries.slice(3 * chunkSize)
+            ];
         }
-        fetshData()
+        return [[], [], [], []];
+    };
+
+    const chunks = getChunks();
+
+    const fetсhData = async () => {
+        try {
+            const response = await getAllCurrency()
+            const rates = await getRUBRates()
+            setRubRates(rates.data);
+            
+            setIsLoading(false)
+            setData(response.data);
+        } catch {
+            null
+        }
+    }
+
+    useEffect(() => {
+        fetсhData()
     }, [])
 
     return (
@@ -106,10 +123,18 @@ export const HomePage = () => {
                     </div>
                 </div>
                 <div className={cl.block_container__valute}>
-                    <div className={cl.block_container__valute_value}></div>
-                    <div className={cl.block_container__valute_value}></div>
-                    <div className={cl.block_container__valute_value}></div>
-                    <div className={cl.block_container__valute_value}></div>
+                    <h3>Курс валют в рублях</h3>
+                    {chunks.map((chunk, index) => (
+                        <div className={cl[`block_container__valute_${['first', 'second', 'third', 'fourth'][index]}`]} key={index}>
+                            {chunk.map(([key, value]) => (
+                                (value.Value > value.Previous) ? (
+                                    <p key={key}>{key}: {value.Value} &#9650;</p>
+                                ) : (
+                                    <p key={key}>{key}: {value.Value} &#9660;</p>
+                                )
+                            ))}
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>
