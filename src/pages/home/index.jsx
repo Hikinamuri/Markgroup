@@ -127,7 +127,7 @@ export const HomePage = () => {
             }
             <div className={cl.block_container}>
                 <div className={cl.block_container__rates}>
-                    <h3>Ставки рубля к другим валютам</h3>
+                    <h3>Ставки рубля к другим валютам / Курс валют в рублях</h3>
                     <div className={cl.block_container__rates_list}>
                         {!isLoading && rubRates && rubRates.rates ? (
                             Object.entries(rubRates.rates).map(([key, value]) => (
@@ -139,7 +139,6 @@ export const HomePage = () => {
                     </div>
                 </div>
                 <div className={cl.block_container__valute}>
-                    <h3>Курс валют в рублях</h3>
                     {chunks.map((chunk, index) => (
                         <div className={cl[`block_container__valute_${['first', 'second', 'third', 'fourth'][index]}`]} key={index}>
                             {chunk.map(([key, value]) => (
