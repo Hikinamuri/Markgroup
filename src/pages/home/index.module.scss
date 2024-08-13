@@ -3,12 +3,14 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
+    gap: 10px;
 }
 
 .converter {
     display: flex;
     align-items: center;
-    width: 50%;
+    width: 60%;
+    max-width: 700px;
     gap: 10px;
 }
 
@@ -44,12 +46,12 @@
     display: flex;
     align-items: center;
     height: fit-content;
-    gap: 5px;
+    gap: 10px;
     color: #000000;
 }
 
 .converter__selects__line {
-    height: 15px;
+    height: 10px;
     width: 1px;
     border-right: 1px solid #000000;
 }
@@ -66,12 +68,27 @@ select option {
     color: #000000;
 }
 
+.calculation_button {
+    padding: 5px 10px;
+    border-radius: 10px;
+    background-color: #FFFFFF;
+    color: #15141F;
+    cursor: pointer;
+}
+
+.resultPrice {
+    color: #FFFFFF;
+    border: 1px solid #FFFFFF;
+    padding: 5px 10px;
+    border-radius: 15px;
+}
+
 .block_container {
     display: flex;
     position: relative;
     width: 100%;
     gap: 40px;
-    padding: 75px;
+    padding: 60px 0 0 0;
 }
 
 .block_container__rates {
@@ -87,7 +104,7 @@ select option {
 
 .block_container h3 {
     position: absolute;
-    top: 10px;
+    top: 0;
     left: 20%;
     transform: translateX(-20%);
 }

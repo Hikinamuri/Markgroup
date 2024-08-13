@@ -20,7 +20,8 @@ export const HomePage = () => {
     };
 
     const handleChange = (event) => {
-        const [name, value ] = event.target;
+        const name= event.target.name;
+        const value = event.target.value;
 
         if (stateUpdateFunctions[name]) {
             stateUpdateFunctions[name](value)
@@ -28,9 +29,8 @@ export const HomePage = () => {
     }
 
     const getPrice = () => {
-        let firstPrice = data.Valute[firstCurrency]?.Value || 1;
-        let secondPrice = data.Valute[secondCurrency]?.Value || 1;
-
+        const firstPrice = data.Valute[firstCurrency]?.Value || 1;
+        const secondPrice = data.Valute[secondCurrency]?.Value || 1;
         const result = ((userValue * firstPrice) / secondPrice).toFixed(3);
         setResult(result)
     }
@@ -64,6 +64,12 @@ export const HomePage = () => {
         }
     }
 
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            getPrice();
+        }
+    }
+
     useEffect(() => {
         fetсhData()
     }, [])
@@ -79,24 +85,29 @@ export const HomePage = () => {
                         name='userValue'
                         value={userValue}
                         onChange={handleChange}
+                        onKeyDown={handleKeyDown}
                     />
                     <div className={cl.converter__selects}>
-                        <select name="firstCurrency" onChange={handleChange}>
+                        <select name="firstCurrency" value={firstCurrency} onChange={handleChange}>
                             <option value=''>RUB</option>
                             {!isLoading && data && data.Valute ? (
                                 Object.entries(data.Valute).map(([key, value]) => (
-                                    <option key={key} value={value.CharCode}>{value.CharCode}</option>
+                                    <option key={key} value={value.CharCode}>
+                                        {value.CharCode}
+                                    </option>
                                 ))
                             ) : (
                                 <option>Пусто</option>
                             )}
                         </select>
                         <div className={cl.converter__selects__line}></div>
-                        <select name='secondCurrency' onChange={handleChange}>
+                        <select name='secondCurrency' value={secondCurrency} onChange={handleChange}>
                             <option value=''>RUB</option>
                             {!isLoading && data && data.Valute ? (
                                 Object.entries(data.Valute).map(([key, value]) => (
-                                    <option key={key} value={value.CharCode}>{value.CharCode}</option>
+                                    <option key={key} value={value.CharCode}>
+                                        {value.CharCode}
+                                    </option>
                                 ))
                             ) : (
                                 <option>Пусто</option>
@@ -104,11 +115,16 @@ export const HomePage = () => {
                         </select>
                     </div>
                 </div>
-                <div onClick={getPrice}>
+                <div className={cl.calculation_button} onClick={getPrice}>
                     <p>Рассчитать</p>
                 </div>
             </div>
-            <span>{result}</span>
+            {result ? (
+                    <p className={cl.resultPrice}>{userValue} {data.Valute[firstCurrency]?.Name || 'Российский рубль'}  = {result} {data.Valute[secondCurrency]?.Name || 'Российский рубль'}</p>
+                ) : (
+                    null
+                )
+            }
             <div className={cl.block_container}>
                 <div className={cl.block_container__rates}>
                     <h3>Ставки рубля к другим валютам</h3>
