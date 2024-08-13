@@ -1,11 +1,12 @@
 import cl from './index.module.scss';
 import { useEffect, useState } from 'react';
 
-import { getAllCurrency } from '../../api/CurrencyApi';
-
+import { getAllCurrency } from '../../api/getAllCurrency';
+import { getRUBRates } from '../../api/getRUBRates';
 
 export const HomePage = () => {
     const [data, setData] = useState();
+    const [rubRates, setRubRates] = useState();
     const [userValue, setUserValue] = useState(100);
     const [firstCurrency, setFirstCurrency] = useState();
     const [secondCurrency, setSecondCurrency] = useState();
@@ -39,13 +40,15 @@ export const HomePage = () => {
     useEffect(() => {
         const fetshData = async () => {
             try {
-                const response = await getAllCurrency()
-                setData(response.data);
+                // const response = await getAllCurrency()
+                const rates = await getRUBRates()
+                setRubRates(rates.data);
+                // setData(response.data);
                 setIsLoading(false)
             }
             catch {null}
         }
-        // fetshData()
+        fetshData()
     }, [])
 
     return (
@@ -90,7 +93,18 @@ export const HomePage = () => {
             </div>
             <span>{result}</span>
             <div className={cl.block_container}>
-                <div className={cl.block_container__rates}></div>
+                <div className={cl.block_container__rates}>
+                    <h3>Ставки рубля к другим валютам</h3>
+                    <div className={cl.block_container__rates_list}>
+                        {!isLoading && rubRates && rubRates.rates ? (
+                            Object.entries(rubRates.rates).map(([key, value]) => (
+                                <div key={key}>{key} - {value.toFixed(4)}</div>
+                            ))
+                        ) : (
+                            <span>Ждем-с</span>
+                        )}
+                    </div>
+                </div>
                 <div className={cl.block_container__valute}>
                     <div className={cl.block_container__valute_value}></div>
                     <div className={cl.block_container__valute_value}></div>
